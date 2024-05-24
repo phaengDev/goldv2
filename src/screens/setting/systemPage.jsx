@@ -6,7 +6,6 @@ import { Config, Urlimage } from '../../config/connenct';
 import axios from 'axios';
 import Select from 'react-select';
 import { useProvince } from '../../utils/selectOption';
-import { value } from 'fluture';
 export default function SystemPage() {
     const api = Config.urlApi;
     const img = Urlimage.url;

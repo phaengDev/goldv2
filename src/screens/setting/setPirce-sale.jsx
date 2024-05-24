@@ -5,7 +5,6 @@ import axios from 'axios'
 import { Config } from '../../config/connenct';
 import numeral from 'numeral';
 import { useOption, useType } from '../../utils/selectOption';
-// import { value } from 'fluture';
 // import ChartPrice from '../Chart/chartUpdate-price';
 export default function SetPirceSale() {
     const api = Config.urlApi;
