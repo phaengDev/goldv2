@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Config, Urlimage } from '../../config/connenct';
 import Alert from '../../utils/config';
 import numeral from 'numeral';
+import Invoice from '../../invoice/bill-invoice';
 function FormSale() {
   const api = Config.urlApi;
   const img = Urlimage.url;
@@ -326,7 +327,7 @@ const confirmOrder=()=>{
     // console.log(order);
     axios.post(api + 'order/payment', order)
       .then(function (res) {
-
+        setInvoice(res.data.id)
         if (res.status === 200) {
           setData({
             first_name: '',
@@ -433,7 +434,15 @@ const confirmOrder=()=>{
     setActiveShow('')
   }
 
-
+  const [invoice, setInvoice] = useState(null);
+  const handlePrint = () => {
+    const printContent = document.getElementById('printableArea').innerHTML;
+    const originalContent = document.body.innerHTML;
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+    // window.location.reload(); // To restore the state after printing
+  };
   // ===================== \\
 
   const toaster = useToaster();
@@ -708,6 +717,13 @@ const confirmOrder=()=>{
           </span>
         </div>
       </div>
+
+
+      {invoice && (
+          <div id="printableArea">
+            <Invoice invoice={invoice} />
+          </div>
+          )}
 
       <Modal show={show} backdrop="static" centered  >
         <Modal.Body className='p-4'>

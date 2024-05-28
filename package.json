@@ -35,7 +35,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "http://gold.plc.la/build",
+  
   "eslintConfig": {
     "extends": [
       "react-app",
