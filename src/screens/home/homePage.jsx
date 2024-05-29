@@ -3,7 +3,9 @@ import React, { useEffect, useState, } from "react";
 import { Config, Urlimage } from "../../config/connenct";
 import axios from "axios";
 import numeral from 'numeral';
-import { Placeholder, Loader } from 'rsuite';
+import { Placeholder, Loader, SelectPicker } from 'rsuite';
+import { LineChart, LineChartBuy } from "./chartHome";
+import { filter } from "lodash";
 function HomePage() {
   const api = Config.urlApi;
   const url = Urlimage.url;
@@ -53,7 +55,16 @@ function HomePage() {
     }
 
   }
-
+  const [filter, setFilter] = useState(1)
+  const days = [{
+    label: 'ອາທິ', value: 1
+  },
+  {
+    label: 'ເດືອນ', value: 2
+  },
+  {
+    label: '3 ເດືອນ', value: 3
+  }]
   // ====================
 
   const [stock, setStock] = useState([]);
@@ -67,7 +78,7 @@ function HomePage() {
     }
 
   }
-  const token=localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetchStock()
@@ -100,8 +111,37 @@ function HomePage() {
                   </div>
                 </div>
               )}
+
             </>
           )}
+          <div className="col-sm-6 ">
+            <div class="panel panel-inverse" data-sortable-id="ui-typography-1">
+              <div class="panel-heading py-2">
+                <h4 class="panel-title">ລາຍການອັບເດດລາຄາຂາຍ</h4>
+                <div class="panel-heading-btn">
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+              </div>
+              <div class="panel-body">
+                <LineChart data={filter} />
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-6">
+            <div class="panel panel-inverse" data-sortable-id="ui-typography-1">
+              <div class="panel-heading py-2">
+                <h4 class="panel-title">ລາຍການອັບເດດລາຄາຊື້ </h4>
+                <div class="panel-heading-btn">
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                  <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+              </div>
+              <div class="panel-body">
+                <LineChartBuy />
+              </div>
+            </div>
+          </div>
         </div>
       )}
       <div className="row">
@@ -147,6 +187,7 @@ function HomePage() {
             </div>
           </div>
         </div>
+
         <div className="col-xl-6">
           <div className="row">
             {sale.map((val, key) =>
@@ -187,6 +228,7 @@ function HomePage() {
             )}
           </div>
         </div>
+
         {stock.map((row, key) =>
           <div className="col-xl-4 col-lg-6">
             <div className="card border-0 mb-3 bg-blue-800 text-white border-4 border-top border-gold rounded-4 rounded-bottom-3">
