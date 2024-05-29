@@ -9,7 +9,6 @@ import axios from 'axios';
 import { QRCodeSVG } from 'qrcode.react';
 import Modal from 'react-bootstrap/Modal';
 import { toPng } from 'html-to-image';
-import { Navigate } from 'react-router-dom';
 export default function StaffPage() {
   const api = Config.urlApi;
   const navigate = useNavigate()
@@ -29,9 +28,8 @@ export default function StaffPage() {
       setIsLoading(false);
     }
   }
-  const [filter, setFilter] = useState('');
+  // const [filter, setFilter] = useState('');
   const Filter = (event) => {
-    setFilter(event)
     setItemStaff(filterName.filter(n => n.first_name.toLowerCase().includes(event)))
   }
 
@@ -152,7 +150,7 @@ export default function StaffPage() {
 //=============== =============== =
   useEffect(() => {
     fetchStaff();
-  }, [])
+  }, []);
   return (
     <>
       <div id="content" class="app-content">
@@ -175,7 +173,7 @@ export default function StaffPage() {
               </div>
               <div class="d-lg-block d-none ms-2 text-body text-opacity-50">ລາຍການ</div>
               <div class="pagination pagination-sm mb-0 ms-auto justify-content-center">
-                <Input onChange={(event) => Filter(event.target.value)} placeholder='ຄົ້ນຫາ...' />
+                <Input  onChange={(event) => Filter(event)} placeholder='ຄົ້ນຫາ...' />
               </div>
             </div>
             <table className="table table-striped table-bordered align-middle w-100 text-nowrap">

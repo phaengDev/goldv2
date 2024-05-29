@@ -102,7 +102,7 @@ export default function ReportStock() {
                 <SelectPicker data={itemZone} onChange={(e) => handleChange('zoneId', e)} block placeholder="ເລືອກ" />
               </div>
               <div className="col-lg-1 col-3  mb-2 mt-4">
-                <button type='button' onClick={handleSaerch} className='btn btn-danger rounded ms-1'> <i className="fas fa-search fa-lg d-sm-none" /><span className='d-sm-block d-none'><i className="fas fa-search fa-lg" /> ຄົ້ນຫາ</span></button>
+                <button type='button' onClick={handleSaerch} className='btn btn-danger rounded ms-1'> <i className="fas fa-search fa-lg " /></button>
               </div>
             </div>
 
@@ -142,7 +142,7 @@ export default function ReportStock() {
                           {itemData.map((val, key) => (
                             <tr key={key}>
                               <td className='text-center'>{key + 1}</td>
-                              <td className='text-center'>{moment(val.balance_date).format('DD/MM/YYY')}</td>
+                              <td className='text-center'>{moment(val.balance_date).format('DD/MM/YYYY')}</td>
                               <td className='text-center'>{val.code_id}</td>
                               <td>{val.tile_name}</td>
                               <td className='text-center'>{val.qty_baht + ' ' + val.option_name}</td>
@@ -157,13 +157,11 @@ export default function ReportStock() {
                       ) : (
                         <tr>
                           <td colSpan={10} className='text-center text-danger'>ບໍ່ລາຍການຂາຍທີ່ທ່ານຊອກຫາ</td>
-
                         </tr>
                       )
                   }
                 </tbody>
               </table>
-
             </div>
           </div>
         </div>

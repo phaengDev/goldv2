@@ -12,12 +12,13 @@ const Invoice = ({ invoice }) => {
         const response = await fetch(api + 'sale-r/reques/'+invoice);
         const jsonData = await response.json();
         setData(jsonData);
-        console.log(jsonData.data)
+        
     } catch (error) {
         console.error('Error fetching data:', error);
     }
 }
 useEffect(() => {
+  
     fetchData();
 }, []);
 return (
@@ -54,7 +55,7 @@ return (
                 <tr>
                     <th class="heading name">ລາຍການ</th>
                     <th class="heading qty">ຈຳນວນ</th>
-                    <th class="heading amount">ລວມເງິນ</th>
+                    <th class="heading amount text-end">ລວມເງິນ</th>
                 </tr>
             </thead>
             <tbody>

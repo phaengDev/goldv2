@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
-import { Link,useParams ,useNavigate} from 'react-router-dom'
-import { Input, SelectPicker, DatePicker, Button } from 'rsuite';
+import { Link ,useNavigate} from 'react-router-dom'
+import { Input, DatePicker, Button } from 'rsuite';
 import axios from 'axios';
 import { Config } from '../../config/connenct';
 import Select from 'react-select'

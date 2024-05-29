@@ -74,7 +74,6 @@ function FormSale() {
       })
       .catch(function (error) {
         setError(true)
-        // alert('An error occurred while searching staff');
       });
   }
 
@@ -199,13 +198,12 @@ const [itemPattern,setItemPattern]=useState([])
 
 
   const [pattern,setPattern]=useState(0);
- const addPattern=(price)=>{
-  setPattern(price)
- }
+//  const addPattern=(price)=>{
+//   setPattern(price)
+//  }
 
 
 const [orderQty,setOrderQty]=useState('1');
-
 const confirmOrder=()=>{
   const dataOrder={
     product_id_fk: dataps.product_uuid,
@@ -291,6 +289,7 @@ const confirmOrder=()=>{
     staff_id_fk: staffId,
     branch_id_fk: barnchId,
     customId: '',
+    bill_shop:'',
     cus_fname: '',
     cus_lname: '',
     cus_tel: '',
@@ -324,11 +323,10 @@ const confirmOrder=()=>{
 
   //==================== ບັນທຶກການຈ່າຍ
   const handlePayment = () => {
-    // console.log(order);
     axios.post(api + 'order/payment', order)
       .then(function (res) {
-        setInvoice(res.data.id)
         if (res.status === 200) {
+          setInvoice(res.data.id)
           setData({
             first_name: '',
             last_name: '',
@@ -348,6 +346,7 @@ const confirmOrder=()=>{
             sale_remark: '',
           });
           setOrder({
+            bill_shop:'',
             alance_total: '0',
             total_grams: '0',
             balance_cash: '0',
@@ -356,9 +355,8 @@ const confirmOrder=()=>{
             balance_return: '0',
           })
           setBalanceReturn(0);
-          
         } else {
-          Alert.warningData(res.data.message)
+          showMessage(res.data.message, 'error');
         }
       }).catch(function () {
         Alert.errorData('ການດຳເນິນງານບໍ່ສຳເລັດ')
@@ -435,14 +433,31 @@ const confirmOrder=()=>{
   }
 
   const [invoice, setInvoice] = useState(null);
-  const handlePrint = () => {
-    const printContent = document.getElementById('printableArea').innerHTML;
-    const originalContent = document.body.innerHTML;
-    document.body.innerHTML = printContent;
-    window.print();
-    document.body.innerHTML = originalContent;
-    // window.location.reload(); // To restore the state after printing
-  };
+//   const handlePrint = () => {
+//     const printContent = document.getElementById('printableArea').innerHTML;
+//     const originalContent = document.body.innerHTML;
+//     const afterPrint = () => {
+//         document.body.innerHTML = originalContent;
+//         window.removeEventListener('afterprint', afterPrint);
+//         window.location.reload();
+//     };
+//     window.addEventListener('afterprint', afterPrint);
+//     document.body.innerHTML = printContent;
+//     window.print();
+// };
+// if(invoice !==''){
+//   const printContent = document.getElementById('printableArea').innerHTML;
+//   const originalContent = document.body.innerHTML;
+//   const afterPrint = () => {
+//       document.body.innerHTML = originalContent;
+//       window.removeEventListener('afterprint', afterPrint);
+//       setInvoice(null)
+//   };
+//   window.addEventListener('afterprint', afterPrint);
+//   document.body.innerHTML = printContent;
+//   window.print();
+//   }
+    
   // ===================== \\
 
   const toaster = useToaster();
@@ -456,8 +471,7 @@ const confirmOrder=()=>{
     toaster.push(message, { placement });
   };
 
-  const [checkOnly, setCheckOnly] = useState('')
-
+  const [checkOnly, setCheckOnly] = useState('');
   //====================
   const [showView, setShowView] = useState(false);
   const modalView = (index) => {
@@ -719,11 +733,11 @@ const confirmOrder=()=>{
       </div>
 
 
-      {invoice && (
+      {invoice !==null ? (
           <div id="printableArea">
             <Invoice invoice={invoice} />
           </div>
-          )}
+           ):''}
 
       <Modal show={show} backdrop="static" centered  >
         <Modal.Body className='p-4'>
@@ -738,7 +752,7 @@ const confirmOrder=()=>{
                   <input type="text" ref={inputRef} autoFocus onChange={(e) => headleCheng('userSale_id', e.target.value)} className='form-control form-control-lg fs-18px border-blue text-center my-input' placeholder='|||||||||||||||||||||||||||||||||' required />
                 </div>
               </form>
-              <p className='text-center mb-2'><a href='home'  className='text-h-red'><i className="fa-solid fa-hand-point-left"></i>  ຍ້ອນກັບ</a></p>
+              <p className='text-center mb-2'><a href='home'  className='text-h-red'><i className="fa-solid fa-hand-point-left"></i> {invoice}  ຍ້ອນກັບ</a></p>
               {error === true && (
                 <div className="alert alert-warning alert-dismissible fade show mb-0">
                   <i className="fa-solid fa-circle-exclamation fa-xl"></i> ລະຫັດພະນັກງານບໍ່ຖຶກຕ້ອງ
@@ -799,7 +813,6 @@ const confirmOrder=()=>{
                   <div className="col-sm-12 mb-2">
                     <div className="from-groupmb-4">
                       <label htmlFor="" className='form-label fs-14px'>ທີ່ຢູ່ປະຈຸບັນ</label>
-                      {/* <textarea  onChange={(e)=>handleChange('cus_address',e)} name="cus_address" placeholder='ທີ່ຢູ່ປະຈຸບັນ' className='form-control' rows="2"></textarea> */}
                       <Input className='py-3  fs-14px' value={order.cus_address || custom.cus_address} onChange={(e) => handleChange('cus_address', e)} name="cus_address" placeholder='ທີ່ຢູ່ປະຈຸບັນ' />
                     </div>
                   </div>
@@ -842,10 +855,14 @@ const confirmOrder=()=>{
                     <label htmlFor="" className='form-label'>ຮັບເງິນໂອນ</label>
                     <Input size='lg' value={numeral(order.balance_transfer).format('0,00')} onChange={(e) => handleTransferChange('balance_transfer', e)} className='bg-lime-100' readOnly={checkOnly} placeholder='0.00' />
                   </div>
-                  <div className="col-sm-12 mb-2">
+                  <div className="col-sm-8 mb-2">
                     <input type="text" value={order.balance_payment = balancePayment} className='hide' />
                     <label htmlFor="" className='form-label'>ເງິນທອນ</label>
                     <Input size='lg' value={numeral(order.balance_return = balanceReturn).format('0,00')} placeholder='0.00' className='bg-orange-100' readOnly />
+                  </div>
+                  <div className="col-sm-4 mb-2 text-center">
+                    <label htmlFor="" className='form-label'>ບິນຮ້ານ</label>
+                    <Input size='lg' onChange={(e) => handleChange('bill_shop', e)} placeholder='0x-xxxx' className='bg-dark text-center text-white'  />
                   </div>
                   <div className="col-sm-12">
                     <label htmlFor="" className='form-label'>ໝາຍເຫດ</label>

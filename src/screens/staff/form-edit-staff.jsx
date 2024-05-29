@@ -1,12 +1,11 @@
 import React,{useState,useEffect} from 'react'
-import { Link,useParams,useLocation ,useNavigate} from 'react-router-dom'
+import { Link,useLocation ,useNavigate} from 'react-router-dom'
 import { Input, DatePicker, Button } from 'rsuite';
 import axios from 'axios';
 import { Config } from '../../config/connenct';
 import Alert from '../../utils/config';
 import Select from 'react-select'
 import { useProvince } from '../../utils/selectOption';
-import moment from 'moment';
 function FormEditStaff() {
     const api=Config.urlApi;
     const itemPv=useProvince();

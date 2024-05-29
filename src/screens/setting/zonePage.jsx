@@ -107,10 +107,9 @@ const headleDelete = (id) => {
         
     }
 
-    const [filter, setFilter] = useState('');
+    // const [filter, setFilter] = useState('');
     const Filter = (event) => {
-        setFilter(event)
-        setItemZone(filterName.filter(n => n.zoneName.toLowerCase().includes(event)))
+        setItemZone(filterName.filter(n => n.zone_name.toLowerCase().includes(event)))
     }
 
     const viewData=(id)=>{

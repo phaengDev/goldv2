@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Input, Placeholder } from 'rsuite';
+import { Modal, Button} from 'rsuite';
 import {Config} from '../../config/connenct';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -91,9 +91,8 @@ function UnitePage() {
         
     }
 
-    const [filter, setFilter] = useState('');
+    // const [filter, setFilter] = useState('');
     const Filter = (event) => {
-        setFilter(event)
         setItemUnite(filterName.filter(n => n.unite_name.toLowerCase().includes(event)))
     }
 
